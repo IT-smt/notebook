@@ -7,9 +7,9 @@ from PyQt6.QtWidgets import QWidget, QMainWindow, QApplication, QTextEdit, QMenu
 
 
 class Window(QMainWindow):
-    """Блокнот"""
+    """Блокнот."""
     def __init__(self):
-        """Инициализирует"""
+        """Инициализирует."""
         super().__init__()
         self.src = None
         self.file_name = None
@@ -20,7 +20,7 @@ class Window(QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        """Front"""
+        """Front."""
         self.setWindowTitle("Блокнот")
         self.resize(1200, 720)
         central_widget = QWidget()
@@ -31,7 +31,7 @@ class Window(QMainWindow):
         self._create_menu_bar()
 
     def _create_menu_bar(self):
-        """Создает меню"""
+        """Создает меню."""
         menu_bar = self.menuBar()
         file_menu = menu_bar.addMenu("Файл")
         self.file_menu(file_menu)
@@ -40,7 +40,7 @@ class Window(QMainWindow):
         self.setMenuBar(menu_bar)
 
     def file_menu(self, file_menu):
-        """Добавляет кнопки в file_menu"""
+        """Добавляет кнопки в file_menu."""
         button_save = QAction("Сохранить", self)
         button_save.setShortcut("F1")
         button_save.setIcon(QIcon.fromTheme("document-save"))
@@ -64,7 +64,7 @@ class Window(QMainWindow):
         file_menu.addAction(button_close)
 
     def edit_menu(self, edit_menu):
-        """Добавляет кнопки в edit_menu"""
+        """Добавляет кнопки в edit_menu."""
         font_size_menu = edit_menu.addMenu("Размер шрифта...")
         self.font_size_menu(font_size_menu)
         edit_menu.addSeparator()
@@ -75,7 +75,7 @@ class Window(QMainWindow):
         edit_menu.addAction(button_clear)
 
     def font_size_menu(self, font_size_menu):
-        """Добавляет кнопки в font_size_menu"""
+        """Добавляет кнопки в font_size_menu."""
         font_size_menu.setIcon(QIcon.fromTheme("zoom-fit-best"))
         button_plus = QAction("Увеличить", self)
         button_plus.setShortcut("F5")
@@ -95,7 +95,7 @@ class Window(QMainWindow):
         font_size_menu.addAction(button_reset)
 
     def save_file(self):
-        """Сохраняет файл"""
+        """Сохраняет файл."""
         text = self.text_edit.toPlainText()
         try:
             path = self.file_name[0]
@@ -105,7 +105,7 @@ class Window(QMainWindow):
             self.save_file_how()
 
     def save_file_how(self):
-        """Сохраняет файл в выбранный каталог"""
+        """Сохраняет файл в выбранный каталог."""
         try:
             file_name = QFileDialog.getSaveFileName(self)
             text = self.text_edit.toPlainText()
@@ -115,7 +115,7 @@ class Window(QMainWindow):
             pass
 
     def open_file(self):
-        """Открывает файл"""
+        """Открывает файл."""
         try:
             self.file_name = QFileDialog.getOpenFileName(self)
             try:
@@ -134,28 +134,28 @@ class Window(QMainWindow):
             pass
 
     def font_size_plus(self):
-        """Увеличивает размер шрифта на 1"""
+        """Увеличивает размер шрифта на 1."""
         if self.font_size < 1000:
             self.font_size += 1
         self.text_edit.setFont(QFont(self.font, self.font_size))
 
     def font_size_minus(self):
-        """Уменьшает размер шрифта на 1"""
+        """Уменьшает размер шрифта на 1."""
         if self.font_size > 1:
             self.font_size -= 1
         self.text_edit.setFont(QFont(self.font, self.font_size))
 
     def font_size_reset(self):
-        """Изменяет размер шрифта на размер по умолчанию"""
+        """Изменяет размер шрифта на размер по умолчанию."""
         self.font_size = 14
         self.text_edit.setFont(QFont(self.font, self.font_size))
 
     def clear(self):
-        """Очищает поле ввода"""
+        """Очищает поле ввода."""
         self.text_edit.setText("")
 
     def keyPressEvent(self, event):
-        """Обрабатывает нажатия клавиш"""
+        """Обрабатывает нажатия клавиш."""
         if event.key() == Qt.Key.Key_F1:
             self.save_file()
         elif event.key() == Qt.Key.Key_F2:
@@ -174,7 +174,7 @@ class Window(QMainWindow):
             self.clear()
 
     def close(self):
-        """Выводит всплывающее окно и закрывает приложение"""
+        """Выводит всплывающее окно и закрывает приложение."""
         if self.text_edit.toPlainText() != "":
             message_box = QMessageBox()
             message_box.setText("Вы хотите сохранить изменения перед выходом?")
@@ -187,7 +187,7 @@ class Window(QMainWindow):
         sys.exit()
 
     def closeEvent(self, event):
-        """Срабатывает, когда закрывается приложение"""
+        """Срабатывает, когда закрывается приложение."""
         self.close()
 
 
