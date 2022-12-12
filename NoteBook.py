@@ -1,3 +1,5 @@
+import sys
+
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction, QFont, QIcon
 from PyQt6.QtWidgets import QWidget, QMainWindow, QApplication, QTextEdit, QMenuBar, QPushButton, QVBoxLayout, \
@@ -50,27 +52,41 @@ class Window(QMainWindow):
         button_open.setShortcut("F3")
         button_open.setIcon(QIcon.fromTheme("document-open"))
         button_open.triggered.connect(self.open_file)
+        button_close = QAction("Закрыть", self)
+        button_close.setShortcut("F4")
+        button_close.setIcon(QIcon.fromTheme("application-exit"))
+        button_close.triggered.connect(self.close)
         file_menu.addAction(button_save)
         file_menu.addAction(button_save_how)
-        file_menu.addSeparator()
         file_menu.addAction(button_open)
+        file_menu.addSeparator()
+        file_menu.addAction(button_close)
 
     def edit_menu(self, edit_menu):
         font_size_menu = edit_menu.addMenu("Размер шрифта...")
+        self.font_size_menu(font_size_menu)
+        edit_menu.addSeparator()
+        button_clear = QAction("Очистить", self)
+        button_clear.setShortcut("F8")
+        button_clear.setIcon(QIcon.fromTheme("edit-clear"))
+        button_clear.triggered.connect(self.clear)
+        edit_menu.addAction(button_clear)
+
+    def font_size_menu(self, font_size_menu):
         font_size_menu.setIcon(QIcon.fromTheme("zoom-fit-best"))
         button_plus = QAction("Увеличить", self)
-        button_plus.setShortcut("F4")
+        button_plus.setShortcut("F5")
         button_plus.setIcon(QIcon.fromTheme("zoom-in"))
         button_plus.triggered.connect(self.font_size_plus)
         font_size_menu.addAction(button_plus)
         button_minus = QAction("Уменьшить", self)
-        button_minus.setShortcut("F5")
+        button_minus.setShortcut("F6")
         button_minus.setIcon(QIcon.fromTheme("zoom-out"))
         button_minus.triggered.connect(self.font_size_minus)
         font_size_menu.addAction(button_minus)
         font_size_menu.addSeparator()
         button_reset = QAction("Сбросить", self)
-        button_reset.setShortcut("F6")
+        button_reset.setShortcut("F7")
         button_reset.setIcon(QIcon.fromTheme("zoom-original"))
         button_reset.triggered.connect(self.font_size_reset)
         font_size_menu.addAction(button_reset)
@@ -125,6 +141,9 @@ class Window(QMainWindow):
         self.font_size = 14
         self.text_edit.setFont(QFont(self.font, self.font_size))
 
+    def clear(self):
+        self.text_edit.setText("")
+
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_F1:
             self.save_file()
@@ -133,13 +152,17 @@ class Window(QMainWindow):
         elif event.key() == Qt.Key.Key_F3:
             self.open_file()
         elif event.key() == Qt.Key.Key_F4:
-            self.font_size_plus()
+            self.close()
         elif event.key() == Qt.Key.Key_F5:
-            self.font_size_minus()
+            self.font_size_plus()
         elif event.key() == Qt.Key.Key_F6:
+            self.font_size_minus()
+        elif event.key() == Qt.Key.Key_F7:
             self.font_size_reset()
+        elif event.key() == Qt.Key.Key_F8:
+            self.clear()
 
-    def closeEvent(self, event):
+    def close(self):
         if self.text_edit.toPlainText() != "":
             message_box = QMessageBox()
             message_box.setText("Вы хотите сохранить изменения перед выходом?")
@@ -149,6 +172,10 @@ class Window(QMainWindow):
             result = message_box.exec()
             if result == QMessageBox.StandardButton.Yes:
                 self.save_file()
+        sys.exit()
+
+    def closeEvent(self, event):
+        self.close()
 
 
 if __name__ == "__main__":
