@@ -2,7 +2,7 @@ import sys
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QAction, QFont, QIcon
 from PyQt6.QtWidgets import QWidget, QMainWindow, QApplication, QTextEdit, QMenuBar, QPushButton, QVBoxLayout, \
-    QFileDialog, QMessageBox, QListWidget, QCheckBox, QHBoxLayout, QLabel
+    QFileDialog, QMessageBox
 
 
 class Window(QMainWindow):
